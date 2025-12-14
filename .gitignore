@@ -10,6 +10,11 @@
 .idea
 .yarn
 
+# Contract compilation reports
+contract-compilation-report.*
+contract-roles-quick-ref.txt
+mobile-device-test-report-*.txt
+
 # Misc
 .DS_Store
 .env.local
