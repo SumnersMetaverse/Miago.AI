@@ -22,5 +22,5 @@ RUN npm run build
 # Expose port for the application
 EXPOSE 3003
 
-# Start the application
-CMD ["npm", "run", "serve"]
+# Start the application - serve on all interfaces
+CMD ["npx", "docusaurus", "serve", "--host", "0.0.0.0", "--port", "3003"]
