@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # Redis Service - Port 6379
+  redis:
+    image: redis:alpine
+    container_name: miago-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - miago-network
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+  # OAuth Service - Port 73571
+  oauth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: miago-oauth
+    ports:
+      - "73571:73571"
+    environment:
+      - OAUTH_ENTRY_PORT=73571
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MIAGO_VERSION=1.0.1.0.11.1.0.1
+    depends_on:
+      - redis
+    networks:
+      - miago-network
+    restart: unless-stopped
+
+  # HTTP Service - Port 8080
+  http-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: miago-http
+    ports:
+      - "8080:8080"
+    environment:
+      - HTTP_PORT=8080
+      - OAUTH_SERVICE_HOST=oauth-service
+      - OAUTH_SERVICE_PORT=73571
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+      - oauth-service
+    networks:
+      - miago-network
+    restart: unless-stopped
+
+  # Docusaurus Documentation - Port 3003
+  docusaurus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: miago-docs
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - SEGMENT_ANALYTICS_KEY=${SEGMENT_ANALYTICS_KEY}
+      - LD_CLIENT_ID=${LD_CLIENT_ID}
+    networks:
+      - miago-network
+    restart: unless-stopped
+
+networks:
+  miago-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.0.0.0/24
+
+volumes:
+  redis-data:
+    driver: local
