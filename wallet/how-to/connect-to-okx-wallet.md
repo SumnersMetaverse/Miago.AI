@@ -29,6 +29,53 @@ wallet providers in a user's browser.
 OKX Wallet uses the RDNS identifier `com.okex.wallet` for EIP-6963 provider discovery.
 You can use this identifier to specifically connect to OKX Wallet in your dapp.
 
+## TypeScript interfaces
+
+Before implementing wallet connections, you'll need the EIP-6963 TypeScript interfaces.
+Add these to your project (e.g., in a `types.ts` or `vite-env.d.ts` file):
+
+```typescript
+// EIP-6963 Provider Info
+interface EIP6963ProviderInfo {
+  rdns: string
+  uuid: string
+  name: string
+  icon: string
+}
+
+// EIP-6963 Provider Detail
+interface EIP6963ProviderDetail {
+  info: EIP6963ProviderInfo
+  provider: EIP1193Provider
+}
+
+// EIP-6963 Announce Provider Event
+type EIP6963AnnounceProviderEvent = {
+  detail: {
+    info: EIP6963ProviderInfo
+    provider: Readonly<EIP1193Provider>
+  }
+}
+
+// EIP-1193 Provider
+interface EIP1193Provider {
+  isStatus?: boolean
+  host?: string
+  path?: string
+  sendAsync?: (
+    request: { method: string; params?: Array<unknown> },
+    callback: (error: Error | null, response: unknown) => void
+  ) => void
+  send?: (
+    request: { method: string; params?: Array<unknown> },
+    callback: (error: Error | null, response: unknown) => void
+  ) => void
+  request: (request: { method: string; params?: Array<unknown> }) => Promise<unknown>
+  on?: (event: string, callback: (...args: any[]) => void) => void
+  removeListener?: (event: string, callback: (...args: any[]) => void) => void
+}
+```
+
 ## Connect to OKX Wallet
 
 ### Option 1: Connect to any EIP-6963 wallet (recommended)
