@@ -87,7 +87,7 @@ preferred wallet:
 // Declare the custom event type
 declare global {
   interface WindowEventMap {
-    'eip6963:announceProvider': CustomEvent
+    'eip6963:announceProvider': EIP6963AnnounceProviderEvent
   }
 }
 
@@ -98,8 +98,8 @@ const providers: Map<string, EIP6963ProviderDetail> = new Map()
 window.addEventListener('eip6963:announceProvider', (event: EIP6963AnnounceProviderEvent) => {
   providers.set(event.detail.info.uuid, event.detail)
 
-  // Display wallet option to user
-  displayWalletOption(event.detail)
+  // Display wallet option to user (implement based on your UI framework)
+  console.log('Wallet detected:', event.detail.info.name)
 })
 
 // Request wallet providers to announce themselves
