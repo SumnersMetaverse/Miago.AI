@@ -173,16 +173,9 @@ import { injected } from 'wagmi/connectors'
 const config = createConfig({
   chains: [mainnet],
   connectors: [
-    injected({
-      target: {
-        id: 'okx',
-        name: 'OKX Wallet',
-        provider: window => {
-          // Wagmi will automatically detect OKX via EIP-6963
-          return window?.okxwallet
-        },
-      },
-    }),
+    // Wagmi automatically detects wallets via EIP-6963
+    // OKX Wallet will be detected without additional configuration
+    injected(),
   ],
   transports: {
     [mainnet.id]: http(),
@@ -307,8 +300,9 @@ provider.on('accountsChanged', (accounts: string[]) => {
 // Listen for chain changes
 provider.on('chainChanged', (chainId: string) => {
   console.log('Chain changed:', chainId)
-  // Reload the page or update state
-  window.location.reload()
+  // Update your application state with the new chain ID
+  // For example: setChainId(chainId)
+  // Note: Many dapps reload the page, but updating state is preferred for better UX
 })
 
 // Listen for disconnection
