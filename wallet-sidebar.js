@@ -21,6 +21,11 @@ const sidebar = {
         },
         {
           type: "doc",
+          label: "Connect to OKX Wallet",
+          id: "how-to/connect-to-okx-wallet"
+        },
+        {
+          type: "doc",
           label: "Access a user's accounts",
           id: "how-to/access-accounts"
         },

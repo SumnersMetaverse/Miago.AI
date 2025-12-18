@@ -7,7 +7,7 @@ keywords: [extension, API]
 # Connect to the MetaMask extension
 
 :::tip Building a cross-platform or mobile dapp?
-For cross-platform development, mobile integration, or advanced features like QR codes and 
+For cross-platform development, mobile integration, or advanced features like QR codes and
 deeplinking, connect to MetaMask using [**MetaMask SDK**](/sdk) instead.
 :::
 
@@ -15,7 +15,7 @@ You can connect your dapp to users' MetaMask wallets by detecting MetaMask in th
 connecting to their accounts.
 This page provides instructions for connecting to MetaMask using the wallet detection mechanism
 introduced by [EIP-6963](../concepts/wallet-interoperability.md).
-This approach allows you to detect multiple installed wallets and connect to them without conflicts.
+This approach allows you to detect multiple installed wallets (including MetaMask, OKX Wallet, Coinbase Wallet, and others) and connect to them without conflicts.
 
 You can connect to the MetaMask browser extension [using third-party libraries](#connect-to-metamask-using-third-party-libraries)
 or [directly using Vite](#connect-to-metamask-directly-using-vite).
@@ -94,10 +94,7 @@ interface EIP1193Provider {
     request: { method: string; params?: Array<unknown> },
     callback: (error: Error | null, response: unknown) => void
   ) => void
-  request: (request: {
-    method: string
-    params?: Array<unknown>
-  }) => Promise<unknown>
+  request: (request: { method: string; params?: Array<unknown> }) => Promise<unknown>
 }
 ```
 
@@ -113,16 +110,16 @@ MetaMask and other Ethereum wallets in JavaScript.
 Update `src/main.ts` with the following code:
 
 ```typescript title="main.ts"
-import "./style.css"
-import { listProviders } from "./providers.ts"
+import './style.css'
+import { listProviders } from './providers.ts'
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
     <div id="providerButtons"></div>
   </div>
 `
 
-listProviders(document.querySelector<HTMLDivElement>("#providerButtons")!)
+listProviders(document.querySelector<HTMLDivElement>('#providerButtons')!)
 ```
 
 The `querySelector` finds and returns the first HTML element that matches the CSS selector `app`,
@@ -140,41 +137,36 @@ Create a file `src/providers.ts` with the following code:
 ```ts title="providers.ts"
 declare global {
   interface WindowEventMap {
-    "eip6963:announceProvider": CustomEvent
+    'eip6963:announceProvider': CustomEvent
   }
 }
 
 // Connect to the selected provider using eth_requestAccounts.
-const connectWithProvider = async (
-  wallet: EIP6963AnnounceProviderEvent["detail"]
-) => {
+const connectWithProvider = async (wallet: EIP6963AnnounceProviderEvent['detail']) => {
   try {
-    await wallet.provider.request({ method: "eth_requestAccounts" })
+    await wallet.provider.request({ method: 'eth_requestAccounts' })
   } catch (error) {
-    console.error("Failed to connect to provider:", error)
+    console.error('Failed to connect to provider:', error)
   }
 }
 
 // Display detected providers as connect buttons.
 export function listProviders(element: HTMLDivElement) {
-  window.addEventListener(
-    "eip6963:announceProvider",
-    (event: EIP6963AnnounceProviderEvent) => {
-      const button = document.createElement("button")
+  window.addEventListener('eip6963:announceProvider', (event: EIP6963AnnounceProviderEvent) => {
+    const button = document.createElement('button')
 
-      button.innerHTML = `
+    button.innerHTML = `
         <img src="${event.detail.info.icon}" alt="${event.detail.info.name}" />
         <div>${event.detail.info.name}</div>
       `
 
-      // Call connectWithProvider when a user selects the button.
-      button.onclick = () => connectWithProvider(event.detail)
-      element.appendChild(button)
-    }
-  )
+    // Call connectWithProvider when a user selects the button.
+    button.onclick = () => connectWithProvider(event.detail)
+    element.appendChild(button)
+  })
 
   // Notify event listeners and other parts of the dapp that a provider is requested.
-  window.dispatchEvent(new Event("eip6963:requestProvider"))
+  window.dispatchEvent(new Event('eip6963:requestProvider'))
 }
 ```
 
@@ -251,10 +243,7 @@ interface EIP1193Provider {
     request: { method: string; params?: Array<unknown> },
     callback: (error: Error | null, response: unknown) => void
   ) => void
-  request: (request: {
-    method: string
-    params?: Array<unknown>
-  }) => Promise<unknown>
+  request: (request: { method: string; params?: Array<unknown> }) => Promise<unknown>
 }
 ```
 
@@ -371,7 +360,7 @@ Create a `src/hooks` directory and add a file `store.ts` with the following code
 ```ts title="hooks/store.ts"
 declare global {
   interface WindowEventMap {
-    "eip6963:announceProvider": CustomEvent
+    'eip6963:announceProvider': CustomEvent
   }
 }
 
@@ -382,21 +371,19 @@ export const store = {
   value: () => providers,
   subscribe: (callback: () => void) => {
     function onAnnouncement(event: EIP6963AnnounceProviderEvent) {
-      if (providers.map((p) => p.info.uuid).includes(event.detail.info.uuid))
-        return
+      if (providers.map(p => p.info.uuid).includes(event.detail.info.uuid)) return
       providers = [...providers, event.detail]
       callback()
     }
 
     // Listen for eip6963:announceProvider and call onAnnouncement when the event is triggered.
-    window.addEventListener("eip6963:announceProvider", onAnnouncement)
+    window.addEventListener('eip6963:announceProvider', onAnnouncement)
 
     // Dispatch the event, which triggers the event listener in the MetaMask wallet.
-    window.dispatchEvent(new Event("eip6963:requestProvider"))
+    window.dispatchEvent(new Event('eip6963:requestProvider'))
 
     // Return a function that removes the event listener.
-    return () =>
-      window.removeEventListener("eip6963:announceProvider", onAnnouncement)
+    return () => window.removeEventListener('eip6963:announceProvider', onAnnouncement)
   },
 }
 ```
@@ -404,8 +391,8 @@ export const store = {
 Also, add a file `useSyncProviders.ts` with the following code to the `hooks` directory:
 
 ```ts title="hooks/useSyncProviders.ts"
-import { useSyncExternalStore } from "react"
-import { store } from "./store"
+import { useSyncExternalStore } from 'react'
+import { store } from './store'
 
 export const useSyncProviders = () =>
   useSyncExternalStore(store.subscribe, store.value, store.value)

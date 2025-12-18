@@ -61,7 +61,7 @@ interface announces an event dispatched by the wallet:
 
 ```typescript
 interface EIP6963AnnounceProviderEvent extends CustomEvent {
-  type: "eip6963:announceProvider"
+  type: 'eip6963:announceProvider'
   detail: EIP6963ProviderDetail
 }
 ```
@@ -71,7 +71,7 @@ interface requests an event dispatched by a dapp:
 
 ```typescript
 interface EIP6963RequestProviderEvent extends Event {
-  type: "eip6963:requestProvider"
+  type: 'eip6963:requestProvider'
 }
 ```
 
@@ -119,6 +119,35 @@ discovery of other wallets, we recommend using third-party libraries.
 The EIP-6963 alternative discovery mechanism works for wallets that have implemented support for EIP-6963.
 This includes MetaMask, Coinbase, Trust Wallet, OKX, and other major wallets.
 See the [list of wallets that support EIP-6963](https://github.com/WalletConnect/EIP6963/blob/master/src/utils/constants.ts).
+
+### Common wallet RDNS identifiers
+
+Each EIP-6963 compatible wallet has a unique RDNS (Reverse Domain Name System) identifier.
+Here are some common wallet RDNS identifiers:
+
+- **MetaMask**: `io.metamask`
+- **OKX Wallet**: `com.okex.wallet`
+- **Coinbase Wallet**: `com.coinbase.wallet`
+- **Trust Wallet**: `com.trustwallet.app`
+- **Rainbow**: `me.rainbow`
+
+You can use these RDNS identifiers to filter for specific wallets in your dapp.
+For example, to connect specifically to OKX Wallet:
+
+```typescript
+// Listen for wallet providers
+window.addEventListener('eip6963:announceProvider', (event: EIP6963AnnounceProviderEvent) => {
+  // Filter for OKX Wallet specifically
+  if (event.detail.info.rdns === 'com.okex.wallet') {
+    const okxProvider = event.detail.provider
+    // Connect to OKX Wallet
+    await okxProvider.request({ method: 'eth_requestAccounts' })
+  }
+})
+
+// Request providers
+window.dispatchEvent(new Event('eip6963:requestProvider'))
+```
 
 ## Backwards compatibility
 
