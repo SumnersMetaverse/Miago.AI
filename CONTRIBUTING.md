@@ -56,12 +56,18 @@ To contribute changes:
 
 3. [Create and checkout a topic branch](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging),
    naming it appropriately.
-   We recommend including the issue number and a short description in the branch name (for example,
-   `183-doc-cli-option`), which is a reminder to fix only one issue in a PR.
+   We recommend including a branch type prefix, the issue number, and a short description in the branch name (for example,
+   `feature/183-doc-cli-option`), which is a reminder to fix only one issue in a PR.
 
    ```bash
-   git checkout -b <ISSUE-NUM>-<ISSUE-DESC>
+   git checkout -b feature/<ISSUE-NUM>-<ISSUE-DESC>
    ```
+   
+   Common branch type prefixes include:
+   - `feature/` for new features
+   - `bugfix/` for bug fixes
+   - `docs/` for documentation-only changes
+   - `hotfix/` for urgent fixes
 
    > **Tip:** You can use a Git client such as [Fork](https://fork.dev/) instead of the command line.
 
