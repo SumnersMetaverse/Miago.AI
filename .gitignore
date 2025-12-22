@@ -18,6 +18,14 @@
 .env.production.local
 .prettierignore
 
+# Go binaries
+miago
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
 npm-debug.log*
 .vercel
 .envrc
