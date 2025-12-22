@@ -23,3 +23,10 @@ npm-debug.log*
 .envrc
 .env
 .integrationBuilderCache
+
+# Go build artifacts
+/miago
+*.exe
+*.dll
+*.so
+*.dylib
