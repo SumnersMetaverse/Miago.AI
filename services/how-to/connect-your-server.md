@@ -169,7 +169,7 @@ curl http://localhost:3000/health
 curl http://localhost:3000/api/block-number
 
 # Get balance
-curl http://localhost:3000/api/balance/0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb
+curl http://localhost:3000/api/balance/0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
 ```
 
   </TabItem>
@@ -312,7 +312,7 @@ curl http://localhost:5000/health
 curl http://localhost:5000/api/block-number
 
 # Get balance
-curl http://localhost:5000/api/balance/0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb
+curl http://localhost:5000/api/balance/0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
 ```
 
   </TabItem>
@@ -519,7 +519,7 @@ curl http://localhost:8080/health
 curl http://localhost:8080/api/block-number
 
 # Get balance
-curl http://localhost:8080/api/balance/0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb
+curl http://localhost:8080/api/balance/0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0
 ```
 
   </TabItem>
@@ -795,7 +795,7 @@ async function batchRequest(calls) {
 
 // Example: Get multiple balances at once
 const results = await batchRequest([
-  { method: 'eth_getBalance', params: ['0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb', 'latest'] },
+  { method: 'eth_getBalance', params: ['0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0', 'latest'] },
   { method: 'eth_getBalance', params: ['0x0000000000000000000000000000000000000000', 'latest'] },
   { method: 'eth_blockNumber', params: [] },
 ])
