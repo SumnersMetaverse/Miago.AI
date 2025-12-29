@@ -1,6 +1,6 @@
 ---
 description: Learn how to connect your server to Miago.AI services for backend integration.
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 import Tabs from "@theme/Tabs";
