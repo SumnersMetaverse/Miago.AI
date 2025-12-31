@@ -26,6 +26,12 @@ miago
 *.so
 *.dylib
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
 npm-debug.log*
 .vercel
 .envrc
