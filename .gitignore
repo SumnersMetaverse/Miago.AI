@@ -18,8 +18,47 @@
 .env.production.local
 .prettierignore
 
+# Go binaries
+miago
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
 npm-debug.log*
 .vercel
 .envrc
 .env
 .integrationBuilderCache
+
+# Guix build artifacts
+/guix-build-*
+
+# CI scratch directory
+/ci/scratch/
+
+# Security: Never commit credentials or sensitive files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+config.json
+!*config.example.json
+!*config.sample.json
+*.macaroon
+wallet.dat
+*.wallet
+private_keys.txt
+*.backup
