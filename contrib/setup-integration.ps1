@@ -1,32 +1,55 @@
-# Bitcoin Core + Repository Integration Setup Script
-# This script helps set up Bitcoin Core with your other repositories
-# Run this in PowerShell as Administrator
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║          Bitcoin Core + Repository Integration Setup Script              ║
+# ║                                                                           ║
+# ║  INSTRUCTIONS:                                                            ║
+# ║  1. Copy this entire script                                               ║
+# ║  2. Paste into a text editor                                              ║
+# ║  3. Replace ALL values marked with >>REPLACE THIS<<                       ║
+# ║  4. Save the file                                                         ║
+# ║  5. Run in PowerShell as Administrator                                    ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
 
-# ============================================================================
-# CONFIGURATION - UPDATE THESE WITH YOUR VALUES
-# ============================================================================
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                    📝 FILL IN YOUR CREDENTIALS HERE                      ║
+# ║                                                                           ║
+# ║  REPLACE each ">>REPLACE THIS<<" with your actual values                 ║
+# ║  Keep the quotes around your values                                       ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
 
-# Bitcoin Core RPC Credentials (from your bitcoin.conf)
-$BITCOIN_RPC_USER = "YOUR_RPC_USERNAME_HERE"
-$BITCOIN_RPC_PASSWORD = "YOUR_RPC_PASSWORD_HERE"
-$BITCOIN_RPC_HOST = "127.0.0.1"
-$BITCOIN_RPC_PORT = "8332"
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │ 1️⃣  BITCOIN CORE RPC CREDENTIALS                                        │
+# │    Find these in your bitcoin.conf file or Tenderly.co account          │
+# └─────────────────────────────────────────────────────────────────────────┘
+$BITCOIN_RPC_USER     = ">>REPLACE THIS<<"        # Example: "mempool"
+$BITCOIN_RPC_PASSWORD = ">>REPLACE THIS<<"        # Your secure password
+$BITCOIN_RPC_HOST     = "127.0.0.1"                 # Usually localhost
+$BITCOIN_RPC_PORT     = "8332"                      # Default Bitcoin Core RPC port
 
-# Redis Configuration (from your Redis repository)
-$REDIS_HOST = "YOUR_REDIS_HOST_HERE"
-$REDIS_PORT = "6379"
-$REDIS_PASSWORD = "YOUR_REDIS_PASSWORD_HERE"
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │ 2️⃣  REDIS CONFIGURATION                                                 │
+# │    Find these in your Redis repository or private server config         │
+# └─────────────────────────────────────────────────────────────────────────┘
+$REDIS_HOST     = ">>REPLACE THIS<<"        # Example: "redis.myserver.com" or "127.0.0.1"
+$REDIS_PORT     = "6379"                      # Default Redis port
+$REDIS_PASSWORD = ">>REPLACE THIS<<"        # Your Redis password (if set)
 
-# Tenderly Configuration (from tenderly.co)
-$TENDERLY_API_KEY = "YOUR_TENDERLY_API_KEY_HERE"
-$TENDERLY_PROJECT_ID = "YOUR_TENDERLY_PROJECT_ID_HERE"
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │ 3️⃣  TENDERLY CONFIGURATION                                              │
+# │    Find these at https://tenderly.co in your project settings           │
+# └─────────────────────────────────────────────────────────────────────────┘
+$TENDERLY_API_KEY     = ">>REPLACE THIS<<"        # From Tenderly dashboard
+$TENDERLY_PROJECT_ID  = ">>REPLACE THIS<<"        # Your project ID
 
-# Project directories
+# ┌─────────────────────────────────────────────────────────────────────────┐
+# │ 4️⃣  PROJECT DIRECTORY                                                   │
+# │    Where to store your projects (usually fine as-is)                    │
+# └─────────────────────────────────────────────────────────────────────────┘
 $PROJECTS_DIR = "$HOME\projects"
 
-# ============================================================================
-# DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING
-# ============================================================================
+# ╔══════════════════════════════════════════════════════════════════════════╗
+# ║                    ⚠️  DO NOT EDIT BELOW THIS LINE  ⚠️                   ║
+# ║                  (Unless you know what you're doing)                      ║
+# ╚══════════════════════════════════════════════════════════════════════════╝
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Bitcoin Core Integration Setup" -ForegroundColor Cyan
@@ -78,14 +101,14 @@ Write-Host "Validating configuration..." -ForegroundColor Yellow
 
 $configValid = $true
 
-if ($BITCOIN_RPC_USER -eq "YOUR_RPC_USERNAME_HERE") {
+if ($BITCOIN_RPC_USER -eq ">>REPLACE THIS<<") {
     Write-Host "  ✗ Bitcoin RPC username not configured" -ForegroundColor Red
     $configValid = $false
 } else {
     Write-Host "  ✓ Bitcoin RPC username configured" -ForegroundColor Green
 }
 
-if ($BITCOIN_RPC_PASSWORD -eq "YOUR_RPC_PASSWORD_HERE") {
+if ($BITCOIN_RPC_PASSWORD -eq ">>REPLACE THIS<<") {
     Write-Host "  ✗ Bitcoin RPC password not configured" -ForegroundColor Red
     $configValid = $false
 } else {
@@ -160,15 +183,15 @@ $envVars = @{
     "BITCOIN_RPC_PORT" = $BITCOIN_RPC_PORT
 }
 
-if ($REDIS_HOST -ne "YOUR_REDIS_HOST_HERE") {
+if ($REDIS_HOST -ne ">>REPLACE THIS<<") {
     $envVars["REDIS_HOST"] = $REDIS_HOST
     $envVars["REDIS_PORT"] = $REDIS_PORT
-    if ($REDIS_PASSWORD -ne "YOUR_REDIS_PASSWORD_HERE") {
+    if ($REDIS_PASSWORD -ne ">>REPLACE THIS<<") {
         $envVars["REDIS_PASSWORD"] = $REDIS_PASSWORD
     }
 }
 
-if ($TENDERLY_API_KEY -ne "YOUR_TENDERLY_API_KEY_HERE") {
+if ($TENDERLY_API_KEY -ne ">>REPLACE THIS<<") {
     $envVars["TENDERLY_API_KEY"] = $TENDERLY_API_KEY
     $envVars["TENDERLY_PROJECT_ID"] = $TENDERLY_PROJECT_ID
 }
@@ -215,12 +238,12 @@ Write-Host "  ✓ Created .env template at: $envPath" -ForegroundColor Green
 Write-Host ""
 
 # Test Redis connection (if configured)
-if ($REDIS_HOST -ne "YOUR_REDIS_HOST_HERE") {
+if ($REDIS_HOST -ne ">>REPLACE THIS<<") {
     Write-Host "Testing Redis connection..." -ForegroundColor Yellow
     
     if (Test-Command "redis-cli") {
         try {
-            if ($REDIS_PASSWORD -ne "YOUR_REDIS_PASSWORD_HERE") {
+            if ($REDIS_PASSWORD -ne ">>REPLACE THIS<<") {
                 $redisTest = redis-cli -h $REDIS_HOST -p $REDIS_PORT -a $REDIS_PASSWORD ping 2>&1
             } else {
                 $redisTest = redis-cli -h $REDIS_HOST -p $REDIS_PORT ping 2>&1
