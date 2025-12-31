@@ -5,7 +5,33 @@ This directory contains configuration examples and documentation for integrating
 ## Contents
 
 - **bitcoin.conf.example** - Example Bitcoin Core configuration file optimized for mempool.space integration
+- **test-integration.py** - Python script to test your Bitcoin Core configuration
 - **README.md** - This comprehensive integration guide
+
+## Testing Your Configuration
+
+Before proceeding with the full mempool.space setup, you can verify that your Bitcoin Core node is properly configured using the included test script:
+
+```bash
+python3 test-integration.py --user <rpc_username> --password <rpc_password>
+```
+
+Example:
+```bash
+python3 test-integration.py --user mempool --password mypassword
+```
+
+The script will test:
+- RPC connection and authentication
+- REST API accessibility
+- Transaction index status
+- Mempool access
+- Network information
+
+For remote nodes:
+```bash
+python3 test-integration.py --user mempool --password mypassword --host 192.168.1.100 --port 8332 --verbose
+```
 
 ## Quick Start
 
