@@ -5,7 +5,7 @@ This directory contains configuration examples and documentation for integrating
 ## Contents
 
 - **bitcoin.conf.example** - Example Bitcoin Core configuration file optimized for mempool.space integration
-- **../doc/mempool-space-integration.md** - Comprehensive integration guide
+- **README.md** - This comprehensive integration guide
 
 ## Quick Start
 
@@ -307,7 +307,6 @@ Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
 - [mempool.space GitHub](https://github.com/mempool/mempool)
 - [Bitcoin Core RPC Documentation](https://developer.bitcoin.org/reference/rpc/)
 - [Bitcoin Core REST Documentation](https://github.com/bitcoin/bitcoin/blob/master/doc/REST-interface.md)
-- [Full Integration Guide](../doc/mempool-space-integration.md)
 
 ## Support
 
