@@ -269,7 +269,7 @@ netstat -an | grep 8332
 
 Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
 
-**Note:** For localhost-only setups, no firewall rules are typically needed since the RPC port should only bind to 127.0.0.1. If you need to allow remote access (not recommended), configure `rpcbind` and `rpcallowip` carefully in bitcoin.conf and add appropriate firewall rules.
+**Note:** For localhost-only setups, no firewall rules are typically needed since the RPC port only binds to 127.0.0.1. If you need to allow remote access (not recommended), configure `rpcbind` and `rpcallowip` carefully in bitcoin.conf and add appropriate firewall rules.
 
 ## Security Best Practices
 
@@ -291,12 +291,18 @@ Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
    # The default configuration with rpcbind=127.0.0.1 keeps it secure
    
    # If you need to allow specific external hosts (advanced use case):
-   # sudo ufw allow from <trusted_ip> to any port 8332
+   # Replace <trusted_ip> and <server_ip> with actual IP addresses
+   # sudo ufw allow from <trusted_ip> to <server_ip> port 8332
    ```
 
-4. **Disable unused RPC methods:**
+4. **Disable unused RPC methods (optional):**
    ```conf
+   # Example whitelist - adjust based on your needs
+   # Common methods needed by mempool.space:
    rpcwhitelist=mempool:getblockchaininfo,getmempoolinfo,getrawmempool
+   rpcwhitelist=mempool:getbestblockhash,getblock,getblockhash,getblockheader
+   rpcwhitelist=mempool:getrawtransaction,sendrawtransaction
+   rpcwhitelist=mempool:estimatesmartfee,getnetworkinfo
    ```
 
 5. **Run Bitcoin Core and mempool.space as non-root users**
