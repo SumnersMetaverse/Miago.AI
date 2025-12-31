@@ -263,16 +263,13 @@ Or enable ZMQ to eliminate polling entirely.
 Check firewall settings:
 
 ```bash
-# Linux - ONLY if mempool.space runs on a different machine
-# WARNING: Do NOT allow external access if running on localhost
-# This opens your RPC port to the network - only do this if needed
-# sudo ufw allow 8332/tcp
-
 # Check if port is listening
 netstat -an | grep 8332
 ```
 
 Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
+
+**Note:** For localhost-only setups, no firewall rules are typically needed since the RPC port should only bind to 127.0.0.1. If you need to allow remote access (not recommended), configure `rpcbind` and `rpcallowip` carefully in bitcoin.conf and add appropriate firewall rules.
 
 ## Security Best Practices
 
@@ -288,10 +285,13 @@ Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
    rpcbind=127.0.0.1     # Bind to localhost only
    ```
 
-3. **Use firewall rules:**
+3. **Use firewall rules (if needed):**
    ```bash
-   # Only allow localhost connections to RPC port
-   sudo ufw deny 8332/tcp
+   # For localhost-only access, ensure RPC port is not exposed
+   # The default configuration with rpcbind=127.0.0.1 keeps it secure
+   
+   # If you need to allow specific external hosts (advanced use case):
+   # sudo ufw allow from <trusted_ip> to any port 8332
    ```
 
 4. **Disable unused RPC methods:**
