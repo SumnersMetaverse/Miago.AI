@@ -1,0 +1,32 @@
+# Bitcoin Core Configuration for mempool.space Integration
+#
+# This file contains example configuration settings for running Bitcoin Core
+# with mempool.space. Copy relevant sections to your bitcoin.conf file.
+#
+# Location of bitcoin.conf:
+# - Linux: ~/.bitcoin/bitcoin.conf
+# - macOS: ~/Library/Application Support/Bitcoin/bitcoin.conf
+# - Windows: %APPDATA%\Bitcoin\bitcoin.conf
+
+##############################################################################
+# Required Settings for mempool.space
+##############################################################################
+
+# Enable RPC server (required for mempool.space to connect)
+server=1
+
+# Enable REST API (recommended for efficient data queries)
+rest=1
+
+# Enable transaction index (required for full transaction lookup functionality)
+# Note: Enabling this requires a one-time reindex with -reindex flag
+txindex=1
+
+##############################################################################
+# RPC Authentication
+##############################################################################
+
+# Set RPC username and password
+# IMPORTANT: Use strong credentials in production!
+# For better security, use rpcauth instead of rpcpassword
+# Generate with: python3 share/rpcauth/rpcauth.py
