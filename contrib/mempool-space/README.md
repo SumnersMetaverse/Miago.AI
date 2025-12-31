@@ -199,10 +199,12 @@ Update mempool.space config accordingly:
 ```json
 {
   "MEMPOOL": {
-    "NETWORK": "testnet"  // or "signet" or "regtest"
+    "NETWORK": "testnet"
   }
 }
 ```
+
+_Note: Use "testnet", "signet", or "regtest" depending on your network choice._
 
 ## Troubleshooting
 
@@ -275,8 +277,9 @@ Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
 
 1. **Use strong RPC credentials:**
    ```bash
-   # Generate secure rpcauth
-   python3 share/rpcauth/rpcauth.py mempool
+   # Generate secure rpcauth using the script in your Bitcoin Core installation
+   # The script is typically located at: share/rpcauth/rpcauth.py
+   python3 /path/to/bitcoin/share/rpcauth/rpcauth.py mempool
    ```
 
 2. **Restrict RPC access:**
@@ -291,7 +294,9 @@ Ensure `rpcbind` and `rpcallowip` are set correctly in bitcoin.conf.
    # The default configuration with rpcbind=127.0.0.1 keeps it secure
    
    # If you need to allow specific external hosts (advanced use case):
-   # Replace <trusted_ip> and <server_ip> with actual IP addresses
+   # Replace placeholders with actual values:
+   #   <trusted_ip> - IP address of the machine running mempool.space
+   #   <server_ip> - IP address of your Bitcoin Core server
    # sudo ufw allow from <trusted_ip> to <server_ip> port 8332
    ```
 
