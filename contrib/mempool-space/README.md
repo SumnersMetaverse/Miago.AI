@@ -39,13 +39,17 @@ rpcallowip=127.0.0.1
 If you enabled `txindex=1` for the first time, you need to reindex:
 
 ```bash
-bitcoind -reindex
+bitcoind --reindex
 ```
 
 Otherwise, a normal restart is sufficient:
 
 ```bash
-bitcoind
+# Run in background (daemon mode)
+bitcoind --daemon
+
+# Or if using systemd
+# systemctl restart bitcoind
 ```
 
 ### 3. Verify RPC Access
