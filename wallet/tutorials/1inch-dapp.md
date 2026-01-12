@@ -169,6 +169,18 @@ export default WalletConnect
 
 Create a `TokenSwap.jsx` file in the `src/components` directory:
 
+:::note Token decimals
+Different ERC-20 tokens use different decimal places (commonly 18, 6, 8, or others).
+This component includes a decimals input field to handle different token standards correctly.
+Common token decimals:
+- ETH: 18 decimals
+- USDC, USDT: 6 decimals
+- WBTC: 8 decimals
+
+The component uses `ethers.parseUnits(amount, decimals)` instead of `parseEther()` to handle
+various token decimal places correctly.
+:::
+
 ```jsx title="TokenSwap.jsx"
 import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
@@ -177,6 +189,7 @@ function TokenSwap({ provider, account }) {
   const [fromToken, setFromToken] = useState('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') // ETH
   const [toToken, setToToken] = useState('0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48') // USDC
   const [amount, setAmount] = useState('')
+  const [fromDecimals, setFromDecimals] = useState(18) // ETH has 18 decimals
   const [quote, setQuote] = useState(null)
   const [loading, setLoading] = useState(false)
   const chainId = 1 // Ethereum mainnet
@@ -186,9 +199,20 @@ function TokenSwap({ provider, account }) {
   async function getQuote() {
     if (!amount || !fromToken || !toToken) return
 
+    // Basic address validation
+    if (!ethers.isAddress(fromToken) && fromToken !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
+      alert('Invalid from token address')
+      return
+    }
+    if (!ethers.isAddress(toToken) && toToken !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
+      alert('Invalid to token address')
+      return
+    }
+
     setLoading(true)
     try {
-      const amountInWei = ethers.parseEther(amount).toString()
+      // Convert amount based on token decimals
+      const amountInWei = ethers.parseUnits(amount, fromDecimals).toString()
       
       const response = await fetch(
         `https://api.1inch.dev/swap/v6.0/${chainId}/quote?` +
@@ -220,7 +244,7 @@ function TokenSwap({ provider, account }) {
 
     setLoading(true)
     try {
-      const amountInWei = ethers.parseEther(amount).toString()
+      const amountInWei = ethers.parseUnits(amount, fromDecimals).toString()
       
       const response = await fetch(
         `https://api.1inch.dev/swap/v6.0/${chainId}/swap?` +
@@ -274,6 +298,17 @@ function TokenSwap({ provider, account }) {
         </div>
 
         <div className="input-group">
+          <label>From Token Decimals</label>
+          <input
+            type="number"
+            value={fromDecimals}
+            onChange={(e) => setFromDecimals(parseInt(e.target.value) || 18)}
+            placeholder="18"
+          />
+          <small>ETH: 18, USDC: 6, USDT: 6, WBTC: 8</small>
+        </div>
+
+        <div className="input-group">
           <label>To Token (Address)</label>
           <input
             type="text"
@@ -300,7 +335,8 @@ function TokenSwap({ provider, account }) {
         {quote && (
           <div className="quote-result">
             <h3>Quote Result</h3>
-            <p>Estimated Output: {ethers.formatUnits(quote.dstAmount, 6)} tokens</p>
+            <p>Estimated Output: {quote.dstAmount} wei</p>
+            <p><small>Note: Convert from wei using the destination token's decimals</small></p>
             <button onClick={executeSwap} disabled={loading}>
               {loading ? 'Swapping...' : 'Execute Swap'}
             </button>
@@ -485,12 +521,15 @@ This tutorial provides a basic integration with 1inch.
 You can enhance the dapp by:
 
 - Adding a token selection UI with a list of popular tokens.
+- Automatically fetching token decimals from the blockchain using ERC-20 token contracts.
 - Displaying estimated gas fees before swapping.
 - Implementing slippage tolerance controls.
 - Adding transaction history tracking.
 - Supporting multiple networks (Polygon, BSC, Arbitrum, etc.).
 - Handling ERC-20 token approvals properly before swapping.
 - Adding error handling for insufficient balance or allowance.
+- Replacing `alert()` calls with proper UI notifications (toast messages, modals, etc.).
+- Adding loading states and better error messages for improved user experience.
 
 ## Additional resources
 
