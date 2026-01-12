@@ -201,11 +201,11 @@ function TokenSwap({ provider, account }) {
 
     // Basic address validation
     if (!ethers.isAddress(fromToken) && fromToken !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
-      alert('Invalid from token address')
+      alert('Invalid from token address. Please enter a valid Ethereum address (0x...)')
       return
     }
     if (!ethers.isAddress(toToken) && toToken !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
-      alert('Invalid to token address')
+      alert('Invalid to token address. Please enter a valid Ethereum address (0x...)')
       return
     }
 
@@ -302,7 +302,7 @@ function TokenSwap({ provider, account }) {
           <input
             type="number"
             value={fromDecimals}
-            onChange={(e) => setFromDecimals(parseInt(e.target.value) || 18)}
+            onChange={(e) => setFromDecimals(parseInt(e.target.value, 10) || 18)}
             placeholder="18"
           />
           <small>ETH: 18, USDC: 6, USDT: 6, WBTC: 8</small>
@@ -336,7 +336,7 @@ function TokenSwap({ provider, account }) {
           <div className="quote-result">
             <h3>Quote Result</h3>
             <p>Estimated Output: {quote.dstAmount} wei</p>
-            <p><small>Note: Convert from wei using the destination token's decimals</small></p>
+            <p><small>Note: This is displayed in wei (smallest unit). To convert to tokens, divide by 10^decimals of the destination token.</small></p>
             <button onClick={executeSwap} disabled={loading}>
               {loading ? 'Swapping...' : 'Execute Swap'}
             </button>
