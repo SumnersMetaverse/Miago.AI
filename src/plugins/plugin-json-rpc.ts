@@ -130,7 +130,7 @@ export default function useNetworksMethodPlugin() {
       const { addRoute, createData, setGlobalData } = actions
       setGlobalData({ netData: content })
       const dynamicRoutes = content.find(item => item.name === NETWORK_NAMES.metamask)
-      if (dynamicRoutes) {
+      if (dynamicRoutes && dynamicRoutes.data && dynamicRoutes.data.methods) {
         const methodsData = await createData(
           'methodsData.json',
           JSON.stringify(dynamicRoutes.data.methods)
