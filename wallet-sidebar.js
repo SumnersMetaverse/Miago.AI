@@ -240,6 +240,11 @@ const sidebar = {
           label: "Create a simple dapp",
           id: "tutorials/javascript-dapp-simple",
         },
+        {
+          type: "doc",
+          label: "Create a 1inch swap dapp",
+          id: "tutorials/1inch-dapp",
+        },
       ],
     },
     {
