@@ -360,7 +360,7 @@ npm i && npm run dev
 [React and TypeScript Repo](https://github.com/MetaMask/vite-react-ts-eip-6963)
 
 ```bash title="Run the code"
-git clone https://github.com/MetaMask/vite-react-ts-eip-69633 && cd vite-react-ts-eip-6963 &&
+git clone https://github.com/MetaMask/vite-react-ts-eip-6963 && cd vite-react-ts-eip-6963 &&
 npm i && npm run dev
 ```
 
