@@ -44,7 +44,7 @@ For connecting to MetaMask, we suggest implementing support for EIP-6963 in Java
 
 This page will walk you through two examples using "ViteJS and Vanilla TypScript" and "ViteJS and React & TypeScript". Choose your adventure!
 
-``bash title= "Create a Vanilla TypeScript ViteJS project"
+```bash title="Create a Vanilla TypeScript ViteJS project"
 npm create vite@latest vanilla-ts-6963 -- --template vanilla-ts
 ```
 
@@ -189,7 +189,7 @@ In our `App.tsx`, we render the `DiscoverWalletProviders` component, which conta
   </TabItem>
   <TabItem value= "DiscoverWalletProviders.tsx">
 
-``ts title="src/components/DiscoverWalletProviders.tsx"
+```ts title="src/components/DiscoverWalletProviders.tsx"
 import { useState } from 'react'
 import { useSyncProviders } from '../hooks/useSyncProviders'
 import { formatAddress } from '~/utils'
@@ -350,7 +350,7 @@ Feel free to clone the repos and try out the examples locally.
 
 [Vanilla TypeScript Repo Link](https://github.com/MetaMask/vite-vanilla-ts-eip-6963)
 
-``bash title= "Run the code"
+```bash title="Run the code"
 git clone https://github.com/MetaMask/vite-vanilla-ts-eip-6963 && cd vite-vanilla-ts-eip-6963 &&
 npm i && npm run dev
 ```
@@ -359,8 +359,8 @@ npm i && npm run dev
 
 [React and TypeScript Repo](https://github.com/MetaMask/vite-react-ts-eip-6963)
 
-``bash title= "Run the code"
-git clone https://github.com/MetaMask/vite-react-ts-eip-69633 && cd vite-react-ts-eip-6963 &&
+```bash title="Run the code"
+git clone https://github.com/MetaMask/vite-react-ts-eip-6963 && cd vite-react-ts-eip-6963 &&
 npm i && npm run dev
 ```
 
